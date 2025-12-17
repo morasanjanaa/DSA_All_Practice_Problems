@@ -1,1 +1,142 @@
+# --------------------------------------------------
+# Question 1: Find Maximum and Minimum element in an array
+# --------------------------------------------------
+
+arr = [4, 2, 1, 4, 5]
+
+# Assume first element is both max and min initially
+max = arr[0]
+min = arr[0]
+
+# Start from index 1 since index 0 is already considered
+for i in range(1, len(arr)):
+    # Update max if current element is greater
+    if arr[i] > max:
+        max = arr[i]
+        
+    # Update min if current element is smaller
+    if arr[i] < min:
+        min = arr[i]
+
+print(max)
+print(min)
+
+
+# --------------------------------------------------
+# Question 2: Count Even and Odd numbers in an array
+# --------------------------------------------------
+
+arr = [1, 2, 3, 4, 5, 6, 7, 8]
+even_count = 0
+odd_count = 0
+
+for i in arr:
+    # Checking divisibility by 2 to identify even numbers
+    if i % 2 == 0:
+        even_count += 1
+    else:
+        odd_count += 1
+
+print(even_count)
+print(odd_count)
+
+
+# --------------------------------------------------
+# Question 3: Reverse an array using two pointers
+# --------------------------------------------------
+
+arr = [1, 2, 3, 4, 5, 6]
+print(arr)
+
+# i starts from beginning, j starts from end
+i = 0
+j = len(arr) - 1
+
+# Swap elements until both pointers meet
+while i < j:
+    arr[i], arr[j] = arr[j], arr[i]
+    i += 1
+    j -= 1
+
+print(arr)
+
+
+# --------------------------------------------------
+# Question 4: Check if an array is sorted or not
+# --------------------------------------------------
+
+arr = [1, 2, 10, 4, 5, 6]
+check = 1  # flag variable to track sorted status
+
+# Compare each element with its previous and next element
+for i in range(1, len(arr) - 1):
+    if arr[i - 1] <= arr[i] <= arr[i + 1]:
+        continue
+    else:
+        check = 0
+        break
+
+if check == 0:
+    print("not sorted")
+else:
+    print("sorted")
+
+# --------------------------------------------------
+# Question 5: Sum of all subarrays
+# --------------------------------------------------
+
+arr = [1, 2]
+cur_sum = 0
+total_sum = 0
+
+# Outer loop selects starting index of subarray
+for i in range(0, len(arr)):
+    cur_sum = arr[i]
+    total_sum += arr[i]
+
+    # Inner loop expands the subarray from i to j
+    for j in range(i + 1, len(arr)):
+        cur_sum += arr[j]
+        total_sum += cur_sum
+
+print(total_sum)
+
+
+# --------------------------------------------------
+# Question 6: Find the Second Largest element in an array
+# --------------------------------------------------
+
+arr = [12, 35, 1, 10, 34, 1]
+max = -1
+sec_max = -1
+
+for i in arr:
+    # If current element becomes new max
+    if i > max:
+        sec_max = max
+        max = i
+        
+    # Update second max only if it's distinct and valid
+    elif i > sec_max and i != max:
+        sec_max = i
+
+print(sec_max)
+# --------------------------------------------------
+# Question 7: Move all zeroes to the end of the array
+# - -------------------------------------------------
+# Preserves the relative order of non-zero elements
+
+arr = [1, 0, 2, 0, 6, 0, 6]
+pos = 0  # index where the next non-zero element should be placed
+
+for i in range(len(arr)):
+    # When a non-zero element is found,
+    # swap it with the element at 'pos'
+    # This pushes zeroes towards the right automatically
+    if arr[i] != 0:
+        arr[pos], arr[i] = arr[i], arr[pos]
+        pos += 1  # move 'pos' to the next available position
+
+print(arr)
+
 
