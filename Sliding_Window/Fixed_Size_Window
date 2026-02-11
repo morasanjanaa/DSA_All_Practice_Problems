@@ -1,1 +1,228 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Question 1
 
+Contains Duplicate II
+
+You are given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array 
+such that nums[i] == nums[j] and abs(i - j) <= k, otherwise return false.
+
+Example 1:
+
+Input: nums = [1,2,3,1], k = 3
+
+Output: true
+Example 2:
+
+Input: nums = [2,1,2], k = 1
+
+Output: false
+
+Code
+
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        i = 0
+        seen = set()
+
+        for j in range(len(nums)):
+            if nums[j] in seen:
+                return True
+
+            seen.add(nums[j])
+
+            if j - i >= k:
+                seen.remove(nums[i])
+                i += 1
+        return False
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Question 2
+
+Minimum Recolors to Get K Consecutive Black Blocks
+
+You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing
+the color of the ith block. The characters 'W' and 'B' denote the colors white and black, respectively.
+
+You are also given an integer k, which is the desired number of consecutive black blocks.
+
+In one operation, you can recolor a white block such that it becomes a black block.
+
+Return the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.
+
+Example 1:
+
+Input: blocks = "WBBWWBBWBW", k = 7
+
+Output: 3
+Explanation: Recolor the 0th, 3rd, and 4th blocks to get 7 consecutive black blocks.
+
+Example 2:
+
+Input: blocks = "BWWWBB", k = 6
+
+Output: 3
+Explanation: Recolor all the white blocks with black
+
+Code
+
+from collections import Counter
+class Solution:
+    def minimumRecolors(self, blocks: str, k: int) -> int:
+        ans = float('inf')
+        window_count = Counter(blocks[:k])
+        if window_count['B']==k:
+            return 0
+        else:
+            ans = min(ans,k-window_count['B'])
+        for i in range(k,len(blocks)):
+            window_count[blocks[i]]+=1
+            window_count[blocks[i-k]]-=1
+            ans = min(ans,k-window_count['B'])
+        return ans
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Question 3
+
+Minimum Difference Between Highest And Lowest of K Scores
+
+You are given a 0-indexed integer array nums, where nums[i] represents the score of the ith student. You are also given an integer k.
+
+Pick the scores of any k students from the array so that the difference between the highest and the lowest of the k scores is minimized.
+
+Return the minimum possible difference.
+
+Example 1:
+
+Input: nums = [2,5,3,1,6,3], k = 3
+
+Output: 1
+Explanation: We can pick [2,3,3], whose score is 1 which is minimum among all combinations.
+
+Example 2:
+
+Input: nums = [9,4,1,7], k = 2
+
+Output: 2
+Explanation: We can pick [9,7], whose score is 2 which is minimum among all combinations.
+Code
+
+class Solution:
+    def minimumDifference(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        min_diff = float('inf')
+        #last index where the window is valid
+        for i in range(len(nums)-k+1):#len(nums)= 6-3+1=4 loops runs till this
+            min_diff = min(min_diff, nums[i + k - 1] - nums[i])
+
+        return min_diff
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Question 4 
+
+Number of Sub Arrays of Size K and Avg Greater than or Equal to Threshold
+Solved 
+Medium
+Topics
+Company Tags
+You are given an array of integers arr and two integers k and threshold, return the number of sub-arrays of size k and average greater than or equal to threshold.
+
+Example 1:
+
+Input: arr = [2,2,2,2,5,5,5,8], k = 3, threshold = 4
+
+Output: 3
+Explanation: Sub-arrays [2,5,5],[5,5,5] and [5,5,8] have averages 4, 5 and 6 respectively. All other sub-arrays of size 3 have averages less than 4 (the threshold).
+
+Example 2:
+
+Input: arr = [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5
+
+Output: 6
+Explanation: The first 6 sub-arrays of size 3 have averages greater than 5. Note that averages are not integers.
+
+Code
+class Solution:
+    def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int:
+        total=sum(arr[:k])
+        ans = 0
+        if ((total/k)>=threshold):
+            ans+=1
+        for i in range(k,len(arr)):
+            total = total-arr[i-k]
+            total = total+arr[i]
+            if ((total/k)>=threshold):
+               ans+=1
+        return ans
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Question 5
+
+Grumpy Bookstore Owner
+Solved 
+Medium
+Topics
+Company Tags
+There is a bookstore owner that has a store open for n minutes. You are given an integer array customers of length n where customers[i] is the number of the customers that enter the store at the start of the ith minute and all those customers leave after the end of that minute.
+
+During certain minutes, the bookstore owner is grumpy. You are given a binary array grumpy where grumpy[i] is 1 if the bookstore owner is grumpy during the ith minute, and is 0 otherwise.
+
+When the bookstore owner is grumpy, the customers entering during that minute are not satisfied. Otherwise, they are satisfied.
+
+The bookstore owner knows a secret technique to remain not grumpy for minutes consecutive minutes, but this technique can only be used once.
+
+Return the maximum number of customers that can be satisfied throughout the day.
+
+Example 1:
+
+Input: customers = [1,0,1,2,1,1,7,5], grumpy = [0,1,0,1,0,1,0,1], minutes = 3
+
+Output: 16
+Explanation:
+
+The bookstore owner keeps themselves not grumpy for the last 3 minutes.
+The maximum number of customers that can be satisfied = 1 + 1 + 1 + 1 + 7 + 5 = 16.
+Example 2:
+
+Input: customers = [10,1,7], grumpy = [0,0,0], minutes = 2
+
+Output: 18
+Explanation: The bookstore owner is already not grumpy for all the customers.
+
+code
+class Solution:
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], k: int) -> int:
+        satisfied = 0
+
+        # customers already satisfied
+        for i in range(len(customers)):
+            if grumpy[i] == 0:
+                satisfied += customers[i]
+
+        # sliding window to compute extra customers
+        window_extra = 0
+        for i in range(k):
+            if grumpy[i] == 1:
+                window_extra += customers[i]
+
+        max_extra = window_extra
+
+        for i in range(k, len(customers)):
+            if grumpy[i-k] == 1:
+                window_extra -= customers[i-k]
+
+            if grumpy[i] == 1:
+                window_extra += customers[i]
+
+            max_extra = max(max_extra, window_extra)
+
+        return satisfied + max_extra
+
+
+
+
+        
+
+
+        
