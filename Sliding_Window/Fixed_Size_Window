@@ -219,6 +219,96 @@ class Solution:
 
         return satisfied + max_extra
 
+------------------------------------------------------------------------------------------------------------------
+Question 6
+
+Got it — here’s a **clean, simple GitHub-ready note** for **LeetCode 1423** 👇
+
+---
+
+# 🧠 1423. Maximum Points You Can Obtain from Cards
+
+## Question
+
+Pick exactly **k cards** from either **start or end** of the array to **maximize score**.
+
+### Example
+
+```text
+cardPoints = [1,2,3,4,5,6,1], k = 3
+Output: 12
+```
+
+---
+
+## 💡 Key Idea (Important)
+
+```text
+Pick k cards from ends
+= Leave (n - k) cards in the middle
+```
+
+---
+
+## 🔄 Convert Problem
+
+```text
+Max score = Total sum - Minimum subarray sum of size (n - k)
+```
+
+---
+
+## 🧾 Example Breakdown
+
+```text
+nums = [1,2,3,4,5,6,1], k = 3
+n = 7 → window size = 7 - 3 = 4
+```
+
+All subarrays of size 4:
+
+```text
+[1,2,3,4] = 10  ← minimum
+[2,3,4,5] = 14
+[3,4,5,6] = 18
+[4,5,6,1] = 16
+```
+
+```text
+Total sum = 22
+Answer = 22 - 10 = 12
+```
+
+---
+
+## ⚙️ Pattern Used
+
+👉 **Fixed Size Sliding Window**
+
+---
+
+## 🧠 Why This Works
+
+* You can only pick from ends
+* So remaining cards form a **continuous subarray**
+* Minimize that → maximize your score
+
+---
+
+## 🎯 One-line Memory Trick
+
+```text
+Pick from ends → Think what to leave → Min window
+```
+
+---
+
+## 🔥 Edge Case
+
+```text
+If k == n → return total sum
+
+
 
 
 
